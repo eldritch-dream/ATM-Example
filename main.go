@@ -125,7 +125,7 @@ func handleAuthorize(accountId string, pin string) error {
 	if accountToAuthorize, ok := Data.Accounts[accountId]; ok {
 		if accountToAuthorize.Pin == pin {
 			accountToAuthorize.AuthorizationTime = time.Now()
-			workingAccount = &accountToAuthorize
+			workingAccount = accountToAuthorize
 			log.Println(fmt.Sprintf("%s successfully authorized", accountToAuthorize.AccountId))
 		} else {
 			return errors.New("authorization failed")
@@ -145,9 +145,9 @@ func handleWithdraw(value float64, account *Data.Account) error {
 			return errors.New("unable to process your withdrawal at this time")
 		} else if workingCash < value {
 			//How do I adjust value here best?
-			twentyDollaBillsLeft := workingCash / 20
-			twentyDollaBillsLeft = math.Trunc(twentyDollaBillsLeft)
-			value = twentyDollaBillsLeft * 20
+			twentiesLeft := workingCash / 20
+			twentiesLeft = math.Trunc(twentiesLeft)
+			value = twentiesLeft * 20
 			log.Println("unable to dispense full amount requested at this time")
 		}
 		account.Balance = account.Balance - value
@@ -155,7 +155,6 @@ func handleWithdraw(value float64, account *Data.Account) error {
 		if account.Balance < 0 {
 			account.Balance = account.Balance - 5
 			log.Println(fmt.Sprintf("You have been charged an overdraft fee of $5. Current balance: $%.2f", account.Balance))
-
 		}
 
 		addHistoryRecord(workingAccount, -value)

@@ -45,8 +45,8 @@ var account5 = Account{
 	AccountHistory: []string{},
 }
 
-var Accounts = map[string]Account{account1.AccountId: account1,
-	account2.AccountId: account2,
-	account3.AccountId: account3,
-	account4.AccountId: account4,
-	account5.AccountId: account5}
+var Accounts = map[string]*Account{account1.AccountId: &account1,
+	account2.AccountId: &account2,
+	account3.AccountId: &account3,
+	account4.AccountId: &account4,
+	account5.AccountId: &account5}

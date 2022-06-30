@@ -114,11 +114,16 @@ func main() {
 }
 
 func resetAuthTime(account *Data.Account) {
-	account.AuthorizationTime = time.Now()
+	if account != nil {
+		account.AuthorizationTime = time.Now()
+	}
 }
 
 func isAccountAuthorized(account *Data.Account) bool {
-	if account.AuthorizationTime.Add(2 * time.Minute).Before(time.Now()) {
+	if account == nil {
+		log.Println("Authorization Required")
+		return false
+	} else if account.AuthorizationTime.Add(2 * time.Minute).Before(time.Now()) {
 		account.AuthorizationTime = time.Unix(0, 0)
 		log.Println("Authorization Required")
 		return false
@@ -186,7 +191,7 @@ func addHistoryRecord(account *Data.Account, amount float64) {
 }
 
 func handleHistory(account *Data.Account) {
-	if len(account.AccountHistory) > 0 {
+	if account != nil && len(account.AccountHistory) > 0 {
 		for i := len(account.AccountHistory) - 1; i >= 0; i-- {
 			fmt.Println(account.AccountHistory[i])
 		}

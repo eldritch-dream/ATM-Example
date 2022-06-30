@@ -21,6 +21,9 @@ var workingAccount *Data.Account
 
 func main() {
 
+	fmt.Fprintln(os.Stdout, "Welcome to my example ATM program please authorize an account or "+
+		"start with the help command if you don't know what to do!")
+
 	scanner := bufio.NewScanner(os.Stdin)
 	log.SetOutput(os.Stdout)
 
@@ -93,14 +96,18 @@ func main() {
 			handleLogout(workingAccount)
 
 		case "help":
-			handleHelp()
+			if len(command) >= 2 {
+				handleHelp(command[1])
+			} else {
+				handleHelp("")
+			}
 
 		case "end":
 			syscall.Exit(0)
 
 		default:
 			log.Println(fmt.Sprintf("Unrecognized command %s", command[0]))
-			handleHelp()
+			handleHelp("")
 		}
 	}
 
@@ -200,7 +207,7 @@ func handleLogout(account *Data.Account) {
 	}
 }
 
-func handleHelp() {
+func handleHelp(extraOutput string) {
 	//Not using the logger here because it puts ugly timestamps in front of the lines
 	fmt.Fprintln(os.Stdout, "Welcome to my example ATM program, you may use the following commands: ")
 	fmt.Fprintln(os.Stdout, "authorize <account_id> <pin>")
@@ -225,4 +232,11 @@ func handleHelp() {
 	fmt.Fprintln(os.Stdout, "end")
 	fmt.Fprintln(os.Stdout, "Ends the example ATM program, thanks for trying it out!")
 	fmt.Fprintln(os.Stdout, "-------------------------------------------------------------------------")
+	if extraOutput == "secret" {
+		fmt.Fprintln(os.Stdout, "Known Accounts")
+		for _, account := range Data.Accounts {
+			fmt.Fprintf(os.Stdout, "Account ID: %s, PIN: %s\n", account.AccountId, account.Pin)
+		}
+		fmt.Fprintln(os.Stdout, "-------------------------------------------------------------------------")
+	}
 }

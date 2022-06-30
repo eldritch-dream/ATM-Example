@@ -3,9 +3,14 @@
 This program aims to demonstrate the basic features of an atm that can only dispense $20 bills and charge overdraft 
 fees if you would over draw your account.
 
+## How to build
+
+Simply run `go build main.go` to generate the script that can be used to run the program.
+
 ## Supported Commands
 
-You can run the program and call the help command or refer to the section below
+You can run the program and call the help command or refer to the section below. If you pass the secret argument to help
+it will print out a list of known accounts `help secret`
 
 | Command                        | Description                                                                                                       |
 |--------------------------------|-------------------------------------------------------------------------------------------------------------------|

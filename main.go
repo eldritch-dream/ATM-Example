@@ -163,6 +163,7 @@ func handleWithdraw(value float64, account *Data.Account) error {
 			log.Println("unable to dispense full amount requested at this time")
 		}
 		account.Balance = account.Balance - value
+		workingCash = workingCash - value
 		log.Println(fmt.Sprintf("Amount dispensed: $%.2f", value))
 		if account.Balance < 0 {
 			account.Balance = account.Balance - 5
